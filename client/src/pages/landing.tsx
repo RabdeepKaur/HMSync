@@ -561,27 +561,32 @@ function TestimonialsSection() {
             {[...topRowTestimonials, ...topRowTestimonials].map((testimonial, index) => (
               <Card 
                 key={`top-${index}`} 
-                className="testimonial-card flex-shrink-0 w-[350px] md:w-[420px] p-6 md:p-8 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 border-2 border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-shadow"
+                className="testimonial-card flex-shrink-0 w-[380px] md:w-[450px] p-8 md:p-10 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-shadow"
                 data-testid={`card-testimonial-top-${index}`}
               >
-                <Quote className="w-8 h-8 md:w-10 md:h-10 text-blue-500 dark:text-blue-400 mb-4 opacity-50" />
-                <p className="text-gray-700 dark:text-gray-300 text-sm md:text-base mb-6 leading-relaxed italic" data-testid={`text-quote-${index}`}>
+                <p className="text-gray-600 dark:text-gray-400 text-base md:text-lg mb-8 leading-relaxed" data-testid={`text-quote-${index}`}>
                   "{testimonial.quote}"
                 </p>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-lg" data-testid={`avatar-${index}`}>
-                    {testimonial.avatar}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-base" data-testid={`avatar-${index}`}>
+                      {testimonial.avatar}
+                    </div>
+                    <div>
+                      <p className="font-bold text-gray-900 dark:text-white text-sm md:text-base" data-testid={`text-name-${index}`}>
+                        {testimonial.name}
+                      </p>
+                      <p className="text-gray-500 dark:text-gray-400 text-xs md:text-sm" data-testid={`text-title-${index}`}>
+                        {testimonial.title}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-bold text-gray-900 dark:text-white text-sm md:text-base" data-testid={`text-name-${index}`}>
-                      {testimonial.name}
-                    </p>
-                    <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm" data-testid={`text-title-${index}`}>
-                      {testimonial.title}
-                    </p>
-                    <p className="text-gray-500 dark:text-gray-500 text-xs" data-testid={`text-org-${index}`}>
-                      {testimonial.organization}
-                    </p>
+                  <div className="flex-shrink-0 ml-4">
+                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 flex items-center justify-center p-2">
+                      <div className="text-blue-600 dark:text-blue-400 font-bold text-xs text-center leading-tight">
+                        {testimonial.organization.split(' ').map(word => word[0]).join('')}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </Card>
@@ -597,27 +602,32 @@ function TestimonialsSection() {
             {[...bottomRowTestimonials, ...bottomRowTestimonials].map((testimonial, index) => (
               <Card 
                 key={`bottom-${index}`} 
-                className="testimonial-card flex-shrink-0 w-[350px] md:w-[420px] p-6 md:p-8 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 border-2 border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-shadow"
+                className="testimonial-card flex-shrink-0 w-[380px] md:w-[450px] p-8 md:p-10 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-shadow"
                 data-testid={`card-testimonial-bottom-${index}`}
               >
-                <Quote className="w-8 h-8 md:w-10 md:h-10 text-purple-500 dark:text-purple-400 mb-4 opacity-50" />
-                <p className="text-gray-700 dark:text-gray-300 text-sm md:text-base mb-6 leading-relaxed italic" data-testid={`text-quote-bottom-${index}`}>
+                <p className="text-gray-600 dark:text-gray-400 text-base md:text-lg mb-8 leading-relaxed" data-testid={`text-quote-bottom-${index}`}>
                   "{testimonial.quote}"
                 </p>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white font-bold text-lg" data-testid={`avatar-bottom-${index}`}>
-                    {testimonial.avatar}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-base" data-testid={`avatar-bottom-${index}`}>
+                      {testimonial.avatar}
+                    </div>
+                    <div>
+                      <p className="font-bold text-gray-900 dark:text-white text-sm md:text-base" data-testid={`text-name-bottom-${index}`}>
+                        {testimonial.name}
+                      </p>
+                      <p className="text-gray-500 dark:text-gray-400 text-xs md:text-sm" data-testid={`text-title-bottom-${index}`}>
+                        {testimonial.title}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-bold text-gray-900 dark:text-white text-sm md:text-base" data-testid={`text-name-bottom-${index}`}>
-                      {testimonial.name}
-                    </p>
-                    <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm" data-testid={`text-title-bottom-${index}`}>
-                      {testimonial.title}
-                    </p>
-                    <p className="text-gray-500 dark:text-gray-500 text-xs" data-testid={`text-org-bottom-${index}`}>
-                      {testimonial.organization}
-                    </p>
+                  <div className="flex-shrink-0 ml-4">
+                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 flex items-center justify-center p-2">
+                      <div className="text-blue-600 dark:text-blue-400 font-bold text-xs text-center leading-tight">
+                        {testimonial.organization.split(' ').map(word => word[0]).join('')}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </Card>
