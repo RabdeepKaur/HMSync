@@ -532,6 +532,9 @@ function WhyChooseSection() {
 }
 
 function TestimonialsSection() {
+  const topRowTestimonials = testimonials.slice(0, 4);
+  const bottomRowTestimonials = testimonials.slice(4, 8);
+
   return (
     <section id="testimonials" className="py-16 md:py-24 lg:py-32 bg-white dark:bg-gray-950 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 mb-12 md:mb-16">
@@ -555,7 +558,7 @@ function TestimonialsSection() {
       <div className="relative mb-6 md:mb-8">
         <div className="scroll-container group">
           <div className="scroll-content">
-            {[...testimonials, ...testimonials].map((testimonial, index) => (
+            {[...topRowTestimonials, ...topRowTestimonials].map((testimonial, index) => (
               <Card 
                 key={`top-${index}`} 
                 className="testimonial-card flex-shrink-0 w-[350px] md:w-[420px] p-6 md:p-8 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 border-2 border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-shadow"
@@ -591,7 +594,7 @@ function TestimonialsSection() {
       <div className="relative">
         <div className="scroll-container-reverse group">
           <div className="scroll-content-reverse">
-            {[...testimonials, ...testimonials].map((testimonial, index) => (
+            {[...bottomRowTestimonials, ...bottomRowTestimonials].map((testimonial, index) => (
               <Card 
                 key={`bottom-${index}`} 
                 className="testimonial-card flex-shrink-0 w-[350px] md:w-[420px] p-6 md:p-8 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 border-2 border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-shadow"
@@ -651,7 +654,7 @@ function TestimonialsSection() {
         .scroll-content {
           display: flex;
           gap: 1.5rem;
-          animation: scroll-left 40s linear infinite;
+          animation: scroll-left 80s linear infinite;
         }
 
         .scroll-container:hover .scroll-content {
@@ -667,7 +670,7 @@ function TestimonialsSection() {
         .scroll-content-reverse {
           display: flex;
           gap: 1.5rem;
-          animation: scroll-right 40s linear infinite;
+          animation: scroll-right 80s linear infinite;
         }
 
         .scroll-container-reverse:hover .scroll-content-reverse {
