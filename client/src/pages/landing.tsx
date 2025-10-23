@@ -871,7 +871,7 @@ function FloatingNavbar() {
     { label: "Benefits", href: "#why-choose" },
     { label: "Demo", href: "#contact" },
     { label: "Pricing", href: "#why-choose" },
-    { label: "Testimonials", href: "#why-choose" },
+    { label: "Testimonials", href: "#testimonials" },
   ];
 
   return (

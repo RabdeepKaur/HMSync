@@ -18,6 +18,7 @@ The HMSync landing page includes:
 - **Problem/Solution Section**: Comparison of traditional systems vs HMSync approach
 - **Features Grid**: 9 key modules showcased (Patient, Doctor, OPD, Lab, Admissions, Billing, Analytics, Audit, Backup)
 - **Why Choose HMSync**: 4 key differentiators with parallax backgrounds
+- **Testimonials Section**: Infinite scrolling testimonials in two rows with pause-on-hover functionality
 - **Contact Form**: Validated demo request form (name, email, hospital, phone, message)
 - **Footer**: Professional footer with contact information and quick links
 - **Theme Toggle**: Light/dark mode support with smooth transitions
@@ -28,6 +29,18 @@ The HMSync landing page includes:
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
+
+**October 23, 2025** - Testimonials Section with Infinite Scroll
+- Added new testimonials section positioned above the Request a Demo section
+- Created testimonials.json data file with 8 healthcare-focused testimonials for easy content management
+- Implemented infinite scrolling marquee animation with two rows:
+  - Top row scrolls right to left
+  - Bottom row scrolls left to right
+  - Both rows pause on hover for better readability
+- Styled cards with gradient avatars, quote icons, and professional healthcare testimonials
+- Fully responsive design matching the existing landing page aesthetic
+- Updated floating navbar to link to testimonials section
+- Architect-reviewed and approved implementation
 
 **October 23, 2025** - Comprehensive Responsive Design Implementation
 - Made all landing page sections fully responsive for mobile, tablet, and desktop
@@ -137,19 +150,31 @@ The landing page is a single-page React 18 application built with TypeScript. It
   - Modern Interface
 - Custom quote CTA card (no fixed pricing)
 
-**5. Contact Form**
+**5. Testimonials Section**
+- Infinite scrolling marquee with 8 healthcare testimonials
+- Two rows with opposite scroll directions (top: right-to-left, bottom: left-to-right)
+- Pause-on-hover functionality for each row
+- Testimonial cards include:
+  - Quote text
+  - Gradient avatar with initials
+  - Name and title
+  - Organization/hospital name
+- Data stored in `/client/src/data/testimonials.json` for easy editing
+- Styled with gradient backgrounds matching the overall design
+
+**6. Contact Form**
 - Form fields: Name, Email, Hospital Name, Phone, Message
 - Full validation with inline error messages
 - Success toast notification
 - Smooth animations on interaction
 
-**6. Footer**
+**7. Footer**
 - 3-column layout
 - Contact information (email, phone, location)
 - Quick links
 - Copyright information
 
-**7. Floating Navbar**
+**8. Floating Navbar**
 - Fixed position at bottom with responsive margin (bottom-4 on mobile, bottom-8 on desktop)
 - Glassmorphic design with backdrop blur
 - HMSync brand name (always visible)
@@ -159,7 +184,7 @@ The landing page is a single-page React 18 application built with TypeScript. It
 - Mobile-optimized with reduced padding and font sizes
 - Responsive breakpoints for different screen sizes
 
-**8. Theme Toggle**
+**9. Theme Toggle**
 - Fixed position in top-right corner
 - Sun/moon icon transition
 - Smooth theme switching
@@ -189,6 +214,7 @@ The project contains only the essential files needed for the HMSync landing page
 - `/client/src/components/ui/` - Minimal UI components (button, input, textarea, card, toast, toaster)
 - `/client/src/components/` - Theme provider and toggle
 - `/client/src/pages/landing.tsx` - Main landing page component
+- `/client/src/data/testimonials.json` - Testimonials data for easy content management
 - `/client/src/hooks/` - Custom hooks (use-toast)
 - `/client/src/lib/` - Utility functions
 
