@@ -663,7 +663,7 @@ function TestimonialsSection() {
 
         .scroll-content {
           display: flex;
-          gap: 1.5rem;
+          gap: 2rem;
           animation: scroll-left 53s linear infinite;
         }
 
@@ -679,7 +679,7 @@ function TestimonialsSection() {
 
         .scroll-content-reverse {
           display: flex;
-          gap: 1.5rem;
+          gap: 2rem;
           animation: scroll-right 53s linear infinite;
         }
 
