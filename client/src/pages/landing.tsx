@@ -654,7 +654,7 @@ function TestimonialsSection() {
         .scroll-content {
           display: flex;
           gap: 1.5rem;
-          animation: scroll-left 80s linear infinite;
+          animation: scroll-left 53s linear infinite;
         }
 
         .scroll-container:hover .scroll-content {
@@ -670,7 +670,7 @@ function TestimonialsSection() {
         .scroll-content-reverse {
           display: flex;
           gap: 1.5rem;
-          animation: scroll-right 80s linear infinite;
+          animation: scroll-right 53s linear infinite;
         }
 
         .scroll-container-reverse:hover .scroll-content-reverse {
