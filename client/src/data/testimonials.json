@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "quote": "HMSync has completely transformed how we manage patient records. The real-time updates and intuitive interface have made our workflow incredibly efficient.",
+    "name": "Dr. Michael Chen",
+    "title": "Chief Medical Officer",
+    "organization": "Metropolitan Medical Center",
+    "avatar": "MC"
+  },
+  {
+    "id": 2,
+    "quote": "The billing and insurance integration is phenomenal. We've reduced claim processing time by 60% and improved our revenue cycle significantly.",
+    "name": "Sarah Thompson",
+    "title": "Hospital Administrator",
+    "organization": "Riverside General Hospital",
+    "avatar": "ST"
+  },
+  {
+    "id": 3,
+    "quote": "As a nurse manager, I love how easy it is to track patient admissions and bed allocation. The system saves us hours of manual work every single day.",
+    "name": "Jennifer Martinez",
+    "title": "Nursing Director",
+    "organization": "St. Mary's Health System",
+    "avatar": "JM"
+  },
+  {
+    "id": 4,
+    "quote": "The pathology lab integration is seamless. Our lab reports are now instantly available to physicians, improving patient care and reducing wait times.",
+    "name": "Dr. Rajesh Kumar",
+    "title": "Pathology Department Head",
+    "organization": "Central City Hospital",
+    "avatar": "RK"
+  },
+  {
+    "id": 5,
+    "quote": "Managing multiple hospital locations has never been easier. The centralized dashboard gives me complete oversight of all our facilities in real-time.",
+    "name": "David Williams",
+    "title": "Healthcare Group CEO",
+    "organization": "HealthCare Alliance",
+    "avatar": "DW"
+  },
+  {
+    "id": 6,
+    "quote": "The analytics and reporting features are outstanding. We now have data-driven insights that help us make better decisions for patient care and operations.",
+    "name": "Dr. Emily Rodriguez",
+    "title": "Quality Assurance Director",
+    "organization": "University Medical Center",
+    "avatar": "ER"
+  },
+  {
+    "id": 7,
+    "quote": "HMSync's appointment scheduling system has reduced no-shows by 40%. Automated reminders and easy rescheduling have been game-changers for our OPD.",
+    "name": "Lisa Anderson",
+    "title": "Outpatient Services Manager",
+    "organization": "Community Health Partners",
+    "avatar": "LA"
+  },
+  {
+    "id": 8,
+    "quote": "The audit logs and security features give us complete peace of mind. We're fully compliant with healthcare regulations, and the system tracks everything beautifully.",
+    "name": "James Patterson",
+    "title": "IT Security Officer",
+    "organization": "Regional Healthcare Network",
+    "avatar": "JP"
+  }
+]

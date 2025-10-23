@@ -32,8 +32,10 @@ import {
   ChevronDown,
   Home,
   Star,
-  MessageSquare
+  MessageSquare,
+  Quote
 } from "lucide-react";
+import testimonials from "@/data/testimonials.json";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -529,6 +531,153 @@ function WhyChooseSection() {
   );
 }
 
+function TestimonialsSection() {
+  return (
+    <section id="testimonials" className="py-16 md:py-24 lg:py-32 bg-white dark:bg-gray-950 overflow-hidden">
+      <div className="container mx-auto px-4 md:px-6 mb-12 md:mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center"
+        >
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-gray-900 dark:text-white" data-testid="heading-testimonials">
+            Made for <span className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">Healthcare Professionals</span>, Loved by Administrators
+          </h2>
+          <p className="text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto px-4" data-testid="text-testimonials-desc">
+            See how healthcare teams are transforming their operations with HMSync
+          </p>
+        </motion.div>
+      </div>
+
+      {/* Top Row - Scrolling Right to Left */}
+      <div className="relative mb-6 md:mb-8">
+        <div className="scroll-container group">
+          <div className="scroll-content">
+            {[...testimonials, ...testimonials].map((testimonial, index) => (
+              <Card 
+                key={`top-${index}`} 
+                className="testimonial-card flex-shrink-0 w-[350px] md:w-[420px] p-6 md:p-8 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 border-2 border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-shadow"
+                data-testid={`card-testimonial-top-${index}`}
+              >
+                <Quote className="w-8 h-8 md:w-10 md:h-10 text-blue-500 dark:text-blue-400 mb-4 opacity-50" />
+                <p className="text-gray-700 dark:text-gray-300 text-sm md:text-base mb-6 leading-relaxed italic" data-testid={`text-quote-${index}`}>
+                  "{testimonial.quote}"
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-lg" data-testid={`avatar-${index}`}>
+                    {testimonial.avatar}
+                  </div>
+                  <div>
+                    <p className="font-bold text-gray-900 dark:text-white text-sm md:text-base" data-testid={`text-name-${index}`}>
+                      {testimonial.name}
+                    </p>
+                    <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm" data-testid={`text-title-${index}`}>
+                      {testimonial.title}
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-500 text-xs" data-testid={`text-org-${index}`}>
+                      {testimonial.organization}
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Row - Scrolling Left to Right */}
+      <div className="relative">
+        <div className="scroll-container-reverse group">
+          <div className="scroll-content-reverse">
+            {[...testimonials, ...testimonials].map((testimonial, index) => (
+              <Card 
+                key={`bottom-${index}`} 
+                className="testimonial-card flex-shrink-0 w-[350px] md:w-[420px] p-6 md:p-8 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 border-2 border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-shadow"
+                data-testid={`card-testimonial-bottom-${index}`}
+              >
+                <Quote className="w-8 h-8 md:w-10 md:h-10 text-purple-500 dark:text-purple-400 mb-4 opacity-50" />
+                <p className="text-gray-700 dark:text-gray-300 text-sm md:text-base mb-6 leading-relaxed italic" data-testid={`text-quote-bottom-${index}`}>
+                  "{testimonial.quote}"
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white font-bold text-lg" data-testid={`avatar-bottom-${index}`}>
+                    {testimonial.avatar}
+                  </div>
+                  <div>
+                    <p className="font-bold text-gray-900 dark:text-white text-sm md:text-base" data-testid={`text-name-bottom-${index}`}>
+                      {testimonial.name}
+                    </p>
+                    <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm" data-testid={`text-title-bottom-${index}`}>
+                      {testimonial.title}
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-500 text-xs" data-testid={`text-org-bottom-${index}`}>
+                      {testimonial.organization}
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes scroll-left {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+
+        @keyframes scroll-right {
+          0% {
+            transform: translateX(-50%);
+          }
+          100% {
+            transform: translateX(0);
+          }
+        }
+
+        .scroll-container {
+          display: flex;
+          overflow: hidden;
+          position: relative;
+        }
+
+        .scroll-content {
+          display: flex;
+          gap: 1.5rem;
+          animation: scroll-left 40s linear infinite;
+        }
+
+        .scroll-container:hover .scroll-content {
+          animation-play-state: paused;
+        }
+
+        .scroll-container-reverse {
+          display: flex;
+          overflow: hidden;
+          position: relative;
+        }
+
+        .scroll-content-reverse {
+          display: flex;
+          gap: 1.5rem;
+          animation: scroll-right 40s linear infinite;
+        }
+
+        .scroll-container-reverse:hover .scroll-content-reverse {
+          animation-play-state: paused;
+        }
+      `}</style>
+    </section>
+  );
+}
+
 function ContactSection() {
   const { toast } = useToast();
   const form = useForm<ContactFormData>({
@@ -838,6 +987,7 @@ export default function LandingPage() {
       <HeroSection />
       <HorizontalScrollFeatures />
       <WhyChooseSection />
+      <TestimonialsSection />
       <ContactSection />
       <Footer />
     </div>
