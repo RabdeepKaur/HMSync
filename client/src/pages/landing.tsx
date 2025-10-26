@@ -250,35 +250,54 @@ function CardDrawFeatures() {
   const heading2Y = useTransform(scrollYProgress, [0.85, 0.95], ["100vh", "0vh"]);
   const heading2Opacity = useTransform(scrollYProgress, [0.85, 0.92], [0, 1]);
 
-  // Calculate individual card animations with stacking effect
+  // Calculate individual card animations - fan spread effect
   const getCardAnimation = (index: number) => {
     const totalCards = features.length;
-    const cardProgress = index / totalCards;
+    const centerIndex = (totalCards - 1) / 2; // Center point for fan
+    const offsetFromCenter = index - centerIndex;
     
-    // Each card starts appearing at its own progress point
-    const startProgress = 0.15 + (cardProgress * 0.5);
-    const endProgress = startProgress + 0.15;
+    // Sequential reveal - each card appears after the previous one
+    const baseProgress = 0.15;
+    const revealDuration = 0.06;
+    const startProgress = baseProgress + (index * revealDuration);
+    const endProgress = startProgress + revealDuration;
     
-    // Cards scale and translate as they stack
-    const scale = useTransform(
-      scrollYProgress,
-      [startProgress, endProgress],
-      [0.9, 1]
-    );
-    
+    // Y position - cards come from below and settle
     const y = useTransform(
       scrollYProgress,
       [startProgress, endProgress],
-      [100, -index * 20]
+      [800, 0]
     );
     
+    // X position - fan out horizontally based on distance from center
+    const x = useTransform(
+      scrollYProgress,
+      [startProgress, endProgress],
+      [0, offsetFromCenter * 45]
+    );
+    
+    // Rotation - fan effect, cards rotate based on position from center
+    const rotate = useTransform(
+      scrollYProgress,
+      [startProgress, endProgress],
+      [0, offsetFromCenter * 3.5]
+    );
+    
+    // Scale - slight scale animation
+    const scale = useTransform(
+      scrollYProgress,
+      [startProgress, endProgress],
+      [0.8, 1]
+    );
+    
+    // Opacity - sharp transition
     const opacity = useTransform(
       scrollYProgress,
-      [startProgress - 0.02, startProgress],
-      [0, 1]
+      [startProgress - 0.01, startProgress, endProgress],
+      [0, 1, 1]
     );
     
-    return { scale, y, opacity };
+    return { scale, y, x, rotate, opacity };
   };
 
   return (
@@ -343,33 +362,34 @@ function CardDrawFeatures() {
           </div>
         </motion.div>
 
-        {/* Stacking cards animation */}
+        {/* Fan spread cards animation */}
         <motion.div 
           style={{ opacity: cardsOpacity }} 
           className="flex-1 flex items-center justify-center relative px-6"
         >
-          <div className="relative w-full max-w-md mx-auto" style={{ height: "500px" }}>
+          <div className="relative w-full max-w-5xl mx-auto" style={{ height: "600px" }}>
             {features.map((feature, index) => {
               const Icon = feature.icon;
               const animation = getCardAnimation(index);
-              const totalCards = features.length;
               
               return (
                 <motion.div
                   key={index}
                   style={{
-                    scale: animation.scale,
+                    x: animation.x,
                     y: animation.y,
+                    rotate: animation.rotate,
+                    scale: animation.scale,
                     opacity: animation.opacity,
                     position: 'absolute',
                     top: '50%',
                     left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    zIndex: totalCards - index,
+                    transformOrigin: 'center bottom',
+                    zIndex: index,
                   }}
-                  className="w-full"
+                  className="w-[320px]"
                 >
-                  <Card className="w-full h-[400px] p-8 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-2 border-gray-200 dark:border-gray-700 shadow-2xl flex flex-col" data-testid={`card-feature-${index}`}>
+                  <Card className="w-full h-[480px] p-8 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-2 border-gray-200 dark:border-gray-700 shadow-2xl flex flex-col" data-testid={`card-feature-${index}`}>
                     <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${feature.color} p-3 mb-6 shadow-lg flex-shrink-0`}>
                       <Icon className="w-full h-full text-white" />
                     </div>
