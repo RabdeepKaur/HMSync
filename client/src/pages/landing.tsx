@@ -265,10 +265,10 @@ function CardDrawFeatures() {
     const revealProgress = startProgress + 0.02;
     const endProgress = revealProgress + 0.02;
     
-    // Cards fan out vertically with slight stacking
+    // Cards come from below and fan out vertically
     const y = useTransform(scrollYProgress, 
       [startProgress, revealProgress, endProgress], 
-      [0, 0, Math.abs(offsetFromCenter) * 12] // Cards spread vertically from center
+      [500, 0, Math.abs(offsetFromCenter) * 12] // Start from below (500px), move to center, then spread
     );
     
     // Cards fan out horizontally
