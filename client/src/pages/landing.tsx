@@ -254,31 +254,40 @@ function CardDrawFeatures() {
   const heading2Y = useTransform(scrollYProgress, [0.8, 0.95], ["100vh", "0vh"]);
   const heading2Opacity = useTransform(scrollYProgress, [0.8, 0.9], [0, 1]);
 
-  // Calculate individual card animations - sequential reveal with vertical stacking
+  // Calculate individual card animations - sequential reveal with fanning effect
   const getCardAnimation = (index: number) => {
     const totalCards = 10;
+    const centerIndex = (totalCards - 1) / 2; // 4.5 for 10 cards
+    const offsetFromCenter = index - centerIndex;
+    
     // Each card appears 0.03 units after the previous one
     const startProgress = 0.15 + (index * 0.03);
     const revealProgress = startProgress + 0.02;
     const endProgress = revealProgress + 0.02;
     
-    // Cards stack vertically on top of each other with slight offset
+    // Cards fan out vertically with slight stacking
     const y = useTransform(scrollYProgress, 
       [startProgress, revealProgress, endProgress], 
-      [0, 0, index * -8] // Small negative offset creates stacking effect
+      [0, 0, Math.abs(offsetFromCenter) * 12] // Cards spread vertically from center
     );
+    
+    // Cards fan out horizontally
     const x = useTransform(scrollYProgress, 
       [startProgress, revealProgress, endProgress], 
-      [0, 0, 0] // No horizontal movement
+      [0, 0, offsetFromCenter * 35] // Horizontal spread based on position
     );
+    
+    // Cards rotate based on their position from center
     const rotate = useTransform(scrollYProgress, 
       [startProgress, revealProgress, endProgress], 
-      [0, 0, (Math.random() - 0.5) * 3] // Very slight random rotation like playing cards
+      [0, 0, offsetFromCenter * 4] // Rotation increases away from center
     );
+    
     const scale = useTransform(scrollYProgress, 
       [startProgress, revealProgress, endProgress], 
       [0.95, 0.98, 1]
     );
+    
     // Sharp opacity transition - hidden until it's time to reveal
     const opacity = useTransform(scrollYProgress, 
       [startProgress - 0.01, startProgress, revealProgress], 
