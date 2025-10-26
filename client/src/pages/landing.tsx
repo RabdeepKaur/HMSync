@@ -229,57 +229,61 @@ function HeroSection() {
   );
 }
 
-function HorizontalScrollFeatures() {
+function CardDrawFeatures() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
   });
 
-  // Split features into two rows
-  const firstRow = features.slice(0, 5);
-  const secondRow = features.slice(5, 10);
-
-  // First row: scroll from left (0%) to right (-100% to show all cards)
-  const x1 = useTransform(scrollYProgress, [0.15, 0.45], ["0%", "-100%"]);
+  // Gradient background opacity
+  const gradientOpacity = useTransform(scrollYProgress, [0.1, 0.3, 0.85, 1], [0, 1, 1, 0]);
   
-  // Second row: scroll from right (0%) to left (100%)
-  const x2 = useTransform(scrollYProgress, [0.15, 0.45], ["0%", "100%"]);
+  // Text transitions
+  const textGradientOpacity = useTransform(scrollYProgress, [0.2, 0.3], [1, 0]);
+  const textWhiteOpacity = useTransform(scrollYProgress, [0.2, 0.3], [0, 1]);
 
-  // Gradient stays visible throughout
-  const gradientOpacity = useTransform(scrollYProgress, [0.15, 0.45, 0.85, 1], [0, 1, 1, 0]);
-  
-  // Text gradient fade out: starts at 0.3 and completes at 0.4
-  const textGradientOpacity = useTransform(scrollYProgress, [0.3, 0.4], [1, 0]);
-  
-  // Text white fade in: starts at 0.3 and completes at 0.4
-  const textWhiteOpacity = useTransform(scrollYProgress, [0.3, 0.4], [0, 1]);
+  // Cards fade out after drawing animation
+  const cardsOpacity = useTransform(scrollYProgress, [0.7, 0.8], [1, 0]);
 
-  // Feature cards fade out after horizontal scroll completes
-  const cardsOpacity = useTransform(scrollYProgress, [0.45, 0.55], [1, 0]);
-
-  // First heading moves up and fades out
-  const heading1Y = useTransform(scrollYProgress, [0.45, 0.65], ["0vh", "-50vh"]);
-  const heading1Opacity = useTransform(scrollYProgress, [0.45, 0.55], [1, 0]);
+  // First heading transitions
+  const heading1Y = useTransform(scrollYProgress, [0.7, 0.85], ["0vh", "-50vh"]);
+  const heading1Opacity = useTransform(scrollYProgress, [0.7, 0.8], [1, 0]);
 
   // Second heading (immersive section) comes up from below
-  const heading2Y = useTransform(scrollYProgress, [0.55, 0.75], ["100vh", "0vh"]);
-  const heading2Opacity = useTransform(scrollYProgress, [0.55, 0.65], [0, 1]);
+  const heading2Y = useTransform(scrollYProgress, [0.8, 0.95], ["100vh", "0vh"]);
+  const heading2Opacity = useTransform(scrollYProgress, [0.8, 0.9], [0, 1]);
+
+  // Calculate individual card animations
+  const getCardAnimation = (index: number) => {
+    const totalCards = 10;
+    const startProgress = 0.15 + (index * 0.04);
+    const endProgress = startProgress + 0.15;
+    
+    // Cards start stacked at center bottom
+    const y = useTransform(scrollYProgress, [startProgress, endProgress], [100, 0]);
+    const x = useTransform(scrollYProgress, [startProgress, endProgress], [0, (index - 4.5) * 80]);
+    const rotate = useTransform(scrollYProgress, [startProgress, endProgress], [0, (index - 4.5) * 5]);
+    const scale = useTransform(scrollYProgress, [startProgress, endProgress], [0.8, 1]);
+    const opacity = useTransform(scrollYProgress, [startProgress - 0.05, startProgress], [0, 1]);
+    
+    return { y, x, rotate, scale, opacity };
+  };
 
   return (
     <section 
       ref={containerRef} 
       id="features" 
       className="relative"
-      style={{ height: "300vh" }}
+      style={{ height: "400vh" }}
     >
-      {/* Fixed gradient background that stays throughout */}
+      {/* Fixed gradient background */}
       <motion.div 
         style={{ opacity: gradientOpacity }} 
         className="fixed inset-0 bg-gradient-to-br from-blue-950 via-purple-950 to-pink-950 pointer-events-none" 
       />
       
-      {/* Grid pattern overlay - fixed, stays with background */}
+      {/* Grid pattern overlay */}
       <motion.div 
         style={{ opacity: useTransform(gradientOpacity, [0, 1], [0, 0.2]) }} 
         className="fixed inset-0 pointer-events-none"
@@ -288,14 +292,13 @@ function HorizontalScrollFeatures() {
       </motion.div>
 
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col py-12 relative z-10">
-        {/* First heading (Powerful Features) that scrolls up */}
+        {/* Heading section */}
         <motion.div 
           style={{ y: heading1Y, opacity: heading1Opacity }}
           className="container mx-auto px-6 mb-12"
         >
           <div className="text-center relative">
             <div className="relative">
-              {/* Gradient text that fades out */}
               <motion.h2 
                 style={{ opacity: textGradientOpacity }}
                 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent"
@@ -303,7 +306,6 @@ function HorizontalScrollFeatures() {
               >
                 Powerful Features
               </motion.h2>
-              {/* White text that fades in */}
               <motion.h2 
                 style={{ opacity: textWhiteOpacity }}
                 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 text-white absolute top-0 left-0 right-0"
@@ -313,7 +315,6 @@ function HorizontalScrollFeatures() {
             </div>
             
             <div className="relative">
-              {/* Gray text that fades out */}
               <motion.p 
                 style={{ opacity: textGradientOpacity }}
                 className="text-sm md:text-base lg:text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto" 
@@ -321,7 +322,6 @@ function HorizontalScrollFeatures() {
               >
                 Everything you need to run a modern hospital, all in one platform
               </motion.p>
-              {/* White text that fades in */}
               <motion.p 
                 style={{ opacity: textWhiteOpacity }}
                 className="text-sm md:text-base lg:text-lg text-white max-w-3xl mx-auto absolute top-0 left-0 right-0"
@@ -332,64 +332,54 @@ function HorizontalScrollFeatures() {
           </div>
         </motion.div>
 
-        {/* Feature cards that fade out */}
-        <motion.div style={{ opacity: cardsOpacity }} className="space-y-6 flex-1 flex flex-col justify-center">
-          {/* First Row - Scrolls Left to Right */}
-          <motion.div style={{ x: x1 }} className="flex gap-4 md:gap-6 px-4 md:px-6">
-            {firstRow.map((feature, index) => {
+        {/* Playing card draw animation */}
+        <motion.div 
+          style={{ opacity: cardsOpacity }} 
+          className="flex-1 flex items-center justify-center relative"
+        >
+          <div className="relative w-full max-w-7xl mx-auto h-[500px] flex items-center justify-center">
+            {features.map((feature, index) => {
               const Icon = feature.icon;
+              const animation = getCardAnimation(index);
+              
               return (
                 <motion.div
-                  key={`row1-${index}`}
-                  className="flex-shrink-0 w-[280px] md:w-[340px] lg:w-[380px]"
-                  whileHover={{ scale: 1.05, y: -10 }}
-                  transition={{ type: "spring", stiffness: 300 }}
+                  key={index}
+                  style={{
+                    x: animation.x,
+                    y: animation.y,
+                    rotate: animation.rotate,
+                    scale: animation.scale,
+                    opacity: animation.opacity,
+                    position: 'absolute',
+                    zIndex: index,
+                  }}
+                  className="w-[280px] md:w-[320px] lg:w-[350px]"
+                  whileHover={{ 
+                    scale: 1.1, 
+                    y: -20,
+                    zIndex: 100,
+                    transition: { type: "spring", stiffness: 300 }
+                  }}
                 >
-                  <Card className="p-4 md:p-5 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-2 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 shadow-xl hover:shadow-2xl" data-testid={`card-feature-${index}`}>
-                    <div className={`w-8 h-8 md:w-10 md:h-10 rounded-xl bg-gradient-to-br ${feature.color} p-2 md:p-2.5 mb-3 shadow-lg`}>
+                  <Card className="p-5 md:p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-2 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 shadow-2xl hover:shadow-3xl" data-testid={`card-feature-${index}`}>
+                    <div className={`w-12 h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-br ${feature.color} p-3 mb-4 shadow-lg`}>
                       <Icon className="w-full h-full text-white" />
                     </div>
-                    <h3 className="text-base md:text-lg font-bold mb-2 text-gray-900 dark:text-white" data-testid={`text-feature-title-${index}`}>
+                    <h3 className="text-lg md:text-xl font-bold mb-3 text-gray-900 dark:text-white" data-testid={`text-feature-title-${index}`}>
                       {feature.title}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm leading-relaxed" data-testid={`text-feature-desc-${index}`}>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base leading-relaxed" data-testid={`text-feature-desc-${index}`}>
                       {feature.description}
                     </p>
                   </Card>
                 </motion.div>
               );
             })}
-          </motion.div>
-
-          {/* Second Row - Scrolls Right to Left */}
-          <motion.div style={{ x: x2 }} className="flex gap-4 md:gap-6 px-4 md:px-6 justify-end">
-            {secondRow.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <motion.div
-                  key={`row2-${index}`}
-                  className="flex-shrink-0 w-[280px] md:w-[340px] lg:w-[380px]"
-                  whileHover={{ scale: 1.05, y: -10 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <Card className="p-4 md:p-5 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-2 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 shadow-xl hover:shadow-2xl" data-testid={`card-feature-${index + 5}`}>
-                    <div className={`w-8 h-8 md:w-10 md:h-10 rounded-xl bg-gradient-to-br ${feature.color} p-2 md:p-2.5 mb-3 shadow-lg`}>
-                      <Icon className="w-full h-full text-white" />
-                    </div>
-                    <h3 className="text-base md:text-lg font-bold mb-2 text-gray-900 dark:text-white" data-testid={`text-feature-title-${index + 5}`}>
-                      {feature.title}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm leading-relaxed" data-testid={`text-feature-desc-${index + 5}`}>
-                      {feature.description}
-                    </p>
-                  </Card>
-                </motion.div>
-              );
-            })}
-          </motion.div>
+          </div>
         </motion.div>
 
-        {/* Second heading (Immersive content) that comes up from below */}
+        {/* Immersive section */}
         <motion.div 
           style={{ y: heading2Y, opacity: heading2Opacity }}
           className="absolute inset-0 flex items-center justify-center px-6"
@@ -998,7 +988,7 @@ export default function LandingPage() {
       <ThemeToggle />
       <FloatingNavbar />
       <HeroSection />
-      <HorizontalScrollFeatures />
+      <CardDrawFeatures />
       <WhyChooseSection />
       <TestimonialsSection />
       <ContactSection />
