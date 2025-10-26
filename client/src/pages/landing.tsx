@@ -355,7 +355,7 @@ function CardDrawFeatures() {
           style={{ opacity: cardsOpacity }} 
           className="flex-1 flex items-center justify-center relative"
         >
-          <div className="relative w-full max-w-7xl mx-auto h-[400px] md:h-[450px] flex items-center justify-center">
+          <div className="relative w-full max-w-7xl mx-auto h-[350px] md:h-[400px] flex items-center justify-center">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               const animation = getCardAnimation(index);
@@ -372,7 +372,7 @@ function CardDrawFeatures() {
                     position: 'absolute',
                     zIndex: index,
                   }}
-                  className="w-[220px] md:w-[260px] lg:w-[280px]"
+                  className="w-[180px] md:w-[200px] lg:w-[220px]"
                   whileHover={{ 
                     scale: 1.15, 
                     y: -25,
@@ -380,14 +380,14 @@ function CardDrawFeatures() {
                     transition: { type: "spring", stiffness: 300 }
                   }}
                 >
-                  <Card className="p-4 md:p-5 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-2 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 shadow-2xl hover:shadow-3xl" data-testid={`card-feature-${index}`}>
-                    <div className={`w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br ${feature.color} p-2.5 mb-3 shadow-lg`}>
+                  <Card className="h-[270px] md:h-[300px] lg:h-[330px] p-4 md:p-5 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-2 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 shadow-2xl hover:shadow-3xl flex flex-col" data-testid={`card-feature-${index}`}>
+                    <div className={`w-10 h-10 md:w-11 md:h-11 rounded-lg bg-gradient-to-br ${feature.color} p-2.5 mb-3 shadow-lg flex-shrink-0`}>
                       <Icon className="w-full h-full text-white" />
                     </div>
-                    <h3 className="text-base md:text-lg font-bold mb-2 text-gray-900 dark:text-white" data-testid={`text-feature-title-${index}`}>
+                    <h3 className="text-sm md:text-base font-bold mb-2 text-gray-900 dark:text-white flex-shrink-0" data-testid={`text-feature-title-${index}`}>
                       {feature.title}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm leading-relaxed" data-testid={`text-feature-desc-${index}`}>
+                    <p className="text-gray-600 dark:text-gray-400 text-xs leading-snug flex-grow overflow-hidden" data-testid={`text-feature-desc-${index}`}>
                       {feature.description}
                     </p>
                   </Card>
