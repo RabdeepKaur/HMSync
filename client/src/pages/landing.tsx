@@ -254,30 +254,30 @@ function CardDrawFeatures() {
   const heading2Y = useTransform(scrollYProgress, [0.8, 0.95], ["100vh", "0vh"]);
   const heading2Opacity = useTransform(scrollYProgress, [0.8, 0.9], [0, 1]);
 
-  // Calculate individual card animations - sequential reveal
+  // Calculate individual card animations - sequential reveal with vertical stacking
   const getCardAnimation = (index: number) => {
     const totalCards = 10;
-    // Each card appears 0.04 units after the previous one
-    const startProgress = 0.15 + (index * 0.04);
-    const revealProgress = startProgress + 0.03;
-    const endProgress = revealProgress + 0.03;
+    // Each card appears 0.03 units after the previous one
+    const startProgress = 0.15 + (index * 0.03);
+    const revealProgress = startProgress + 0.02;
+    const endProgress = revealProgress + 0.02;
     
-    // Cards start invisible and stacked at center bottom
+    // Cards stack vertically on top of each other with slight offset
     const y = useTransform(scrollYProgress, 
       [startProgress, revealProgress, endProgress], 
-      [100, 50, 0]
+      [0, 0, index * -8] // Small negative offset creates stacking effect
     );
     const x = useTransform(scrollYProgress, 
       [startProgress, revealProgress, endProgress], 
-      [0, 0, (index - 4.5) * 65]
+      [0, 0, 0] // No horizontal movement
     );
     const rotate = useTransform(scrollYProgress, 
       [startProgress, revealProgress, endProgress], 
-      [0, 0, (index - 4.5) * 4]
+      [0, 0, (Math.random() - 0.5) * 3] // Very slight random rotation like playing cards
     );
     const scale = useTransform(scrollYProgress, 
       [startProgress, revealProgress, endProgress], 
-      [0.7, 0.85, 1]
+      [0.95, 0.98, 1]
     );
     // Sharp opacity transition - hidden until it's time to reveal
     const opacity = useTransform(scrollYProgress, 
@@ -355,7 +355,7 @@ function CardDrawFeatures() {
           style={{ opacity: cardsOpacity }} 
           className="flex-1 flex items-center justify-center relative"
         >
-          <div className="relative w-full max-w-7xl mx-auto h-[350px] md:h-[400px] flex items-center justify-center">
+          <div className="relative w-full max-w-2xl mx-auto h-[350px] md:h-[400px] flex items-center justify-center">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               const animation = getCardAnimation(index);
@@ -372,16 +372,17 @@ function CardDrawFeatures() {
                     position: 'absolute',
                     zIndex: index,
                   }}
-                  className="w-[180px] md:w-[200px] lg:w-[220px]"
+                  className="w-[200px] md:w-[240px] lg:w-[280px]"
                   whileHover={{ 
-                    scale: 1.15, 
-                    y: -25,
+                    scale: 1.08, 
+                    y: -15,
+                    rotate: 0,
                     zIndex: 100,
                     transition: { type: "spring", stiffness: 300 }
                   }}
                 >
-                  <Card className="h-[270px] md:h-[300px] lg:h-[330px] p-4 md:p-5 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-2 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 shadow-2xl hover:shadow-3xl flex flex-col" data-testid={`card-feature-${index}`}>
-                    <div className={`w-10 h-10 md:w-11 md:h-11 rounded-lg bg-gradient-to-br ${feature.color} p-2.5 mb-3 shadow-lg flex-shrink-0`}>
+                  <Card className="h-[280px] md:h-[320px] lg:h-[360px] p-5 md:p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-2 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 shadow-2xl hover:shadow-3xl flex flex-col" data-testid={`card-feature-${index}`}>
+                    <div className={`w-11 h-11 md:w-12 md:h-12 rounded-lg bg-gradient-to-br ${feature.color} p-2.5 mb-3 shadow-lg flex-shrink-0`}>
                       <Icon className="w-full h-full text-white" />
                     </div>
                     <h3 className="text-sm md:text-base font-bold mb-2 text-gray-900 dark:text-white flex-shrink-0" data-testid={`text-feature-title-${index}`}>
