@@ -233,71 +233,68 @@ function CardDrawFeatures() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"]
+    offset: ["start end", "end start"]
   });
 
   // Gradient background opacity
-  const gradientOpacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
+  const gradientOpacity = useTransform(scrollYProgress, [0.1, 0.3, 0.85, 1], [0, 1, 1, 0]);
   
   // Text transitions
-  const textGradientOpacity = useTransform(scrollYProgress, [0.05, 0.15], [1, 0]);
-  const textWhiteOpacity = useTransform(scrollYProgress, [0.05, 0.15], [0, 1]);
+  const textGradientOpacity = useTransform(scrollYProgress, [0.2, 0.3], [1, 0]);
+  const textWhiteOpacity = useTransform(scrollYProgress, [0.2, 0.3], [0, 1]);
 
-  // Cards section transitions
-  const cardsOpacity = useTransform(scrollYProgress, [0.85, 0.95], [1, 0]);
+  // Cards fade out after drawing animation
+  const cardsOpacity = useTransform(scrollYProgress, [0.7, 0.8], [1, 0]);
 
-  // Immersive section comes up from below
-  const heading2Y = useTransform(scrollYProgress, [0.85, 0.95], ["100vh", "0vh"]);
-  const heading2Opacity = useTransform(scrollYProgress, [0.85, 0.92], [0, 1]);
+  // First heading transitions
+  const heading1Y = useTransform(scrollYProgress, [0.7, 0.85], ["0vh", "-50vh"]);
+  const heading1Opacity = useTransform(scrollYProgress, [0.7, 0.8], [1, 0]);
 
-  // Calculate individual card animations - fan spread effect
+  // Second heading (immersive section) comes up from below
+  const heading2Y = useTransform(scrollYProgress, [0.8, 0.95], ["100vh", "0vh"]);
+  const heading2Opacity = useTransform(scrollYProgress, [0.8, 0.9], [0, 1]);
+
+  // Calculate individual card animations - sequential reveal with fanning effect
   const getCardAnimation = (index: number) => {
-    const totalCards = features.length;
-    const centerIndex = (totalCards - 1) / 2; // Center point for fan
+    const totalCards = 10;
+    const centerIndex = (totalCards - 1) / 2; // 4.5 for 10 cards
     const offsetFromCenter = index - centerIndex;
     
-    // Sequential reveal - each card appears after the previous one
-    const baseProgress = 0.15;
-    const revealDuration = 0.06;
-    const startProgress = baseProgress + (index * revealDuration);
-    const endProgress = startProgress + revealDuration;
+    // Each card appears 0.03 units after the previous one
+    const startProgress = 0.15 + (index * 0.03);
+    const revealProgress = startProgress + 0.02;
+    const endProgress = revealProgress + 0.02;
     
-    // Y position - cards come from below and settle
-    const y = useTransform(
-      scrollYProgress,
-      [startProgress, endProgress],
-      [800, 0]
+    // Cards come from below and fan out vertically
+    const y = useTransform(scrollYProgress, 
+      [startProgress, revealProgress, endProgress], 
+      [500, 0, Math.abs(offsetFromCenter) * 12] // Start from below (500px), move to center, then spread
     );
     
-    // X position - fan out horizontally based on distance from center
-    const x = useTransform(
-      scrollYProgress,
-      [startProgress, endProgress],
-      [0, offsetFromCenter * 45]
+    // Cards fan out horizontally
+    const x = useTransform(scrollYProgress, 
+      [startProgress, revealProgress, endProgress], 
+      [0, 0, offsetFromCenter * 60] // Horizontal spread based on position
     );
     
-    // Rotation - fan effect, cards rotate based on position from center
-    const rotate = useTransform(
-      scrollYProgress,
-      [startProgress, endProgress],
-      [0, offsetFromCenter * 3.5]
+    // Cards rotate based on their position from center
+    const rotate = useTransform(scrollYProgress, 
+      [startProgress, revealProgress, endProgress], 
+      [0, 0, offsetFromCenter * 4] // Rotation increases away from center
     );
     
-    // Scale - slight scale animation
-    const scale = useTransform(
-      scrollYProgress,
-      [startProgress, endProgress],
-      [0.8, 1]
+    const scale = useTransform(scrollYProgress, 
+      [startProgress, revealProgress, endProgress], 
+      [0.95, 0.98, 1]
     );
     
-    // Opacity - sharp transition
-    const opacity = useTransform(
-      scrollYProgress,
-      [startProgress - 0.01, startProgress, endProgress],
+    // Sharp opacity transition - hidden until it's time to reveal
+    const opacity = useTransform(scrollYProgress, 
+      [startProgress - 0.01, startProgress, revealProgress], 
       [0, 1, 1]
     );
     
-    return { scale, y, x, rotate, opacity };
+    return { y, x, rotate, scale, opacity };
   };
 
   return (
@@ -305,7 +302,7 @@ function CardDrawFeatures() {
       ref={containerRef} 
       id="features" 
       className="relative"
-      style={{ height: "300vh" }}
+      style={{ height: "400vh" }}
     >
       {/* Fixed gradient background */}
       <motion.div 
@@ -321,10 +318,10 @@ function CardDrawFeatures() {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-10" />
       </motion.div>
 
-      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center py-12 relative z-10">
+      <div className="sticky top-0 h-screen overflow-hidden flex flex-col py-12 relative z-10">
         {/* Heading section */}
         <motion.div 
-          style={{ opacity: cardsOpacity }}
+          style={{ y: heading1Y, opacity: heading1Opacity }}
           className="container mx-auto px-6 mb-12"
         >
           <div className="text-center relative">
@@ -362,12 +359,12 @@ function CardDrawFeatures() {
           </div>
         </motion.div>
 
-        {/* Fan spread cards animation */}
+        {/* Playing card draw animation */}
         <motion.div 
           style={{ opacity: cardsOpacity }} 
-          className="flex-1 flex items-center justify-center relative px-6"
+          className="flex-1 flex items-center justify-center relative"
         >
-          <div className="relative w-full max-w-5xl mx-auto" style={{ height: "600px" }}>
+          <div className="relative w-full max-w-2xl mx-auto h-[350px] md:h-[400px] flex items-center justify-center">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               const animation = getCardAnimation(index);
@@ -382,21 +379,25 @@ function CardDrawFeatures() {
                     scale: animation.scale,
                     opacity: animation.opacity,
                     position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transformOrigin: 'center bottom',
                     zIndex: index,
                   }}
-                  className="w-[320px]"
+                  className="w-[200px] md:w-[240px] lg:w-[280px]"
+                  whileHover={{ 
+                    scale: 1.08, 
+                    y: -15,
+                    rotate: 0,
+                    zIndex: 100,
+                    transition: { type: "spring", stiffness: 300 }
+                  }}
                 >
-                  <Card className="w-full h-[480px] p-8 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-2 border-gray-200 dark:border-gray-700 shadow-2xl flex flex-col" data-testid={`card-feature-${index}`}>
-                    <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${feature.color} p-3 mb-6 shadow-lg flex-shrink-0`}>
+                  <Card className="h-[280px] md:h-[320px] lg:h-[360px] p-5 md:p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-2 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 shadow-2xl hover:shadow-3xl flex flex-col" data-testid={`card-feature-${index}`}>
+                    <div className={`w-11 h-11 md:w-12 md:h-12 rounded-lg bg-gradient-to-br ${feature.color} p-2.5 mb-3 shadow-lg flex-shrink-0`}>
                       <Icon className="w-full h-full text-white" />
                     </div>
-                    <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white flex-shrink-0" data-testid={`text-feature-title-${index}`}>
+                    <h3 className="text-sm md:text-base font-bold mb-2 text-gray-900 dark:text-white flex-shrink-0" data-testid={`text-feature-title-${index}`}>
                       {feature.title}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed flex-grow" data-testid={`text-feature-desc-${index}`}>
+                    <p className="text-gray-600 dark:text-gray-400 text-xs leading-snug flex-grow overflow-hidden" data-testid={`text-feature-desc-${index}`}>
                       {feature.description}
                     </p>
                   </Card>
