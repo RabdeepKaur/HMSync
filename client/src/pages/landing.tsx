@@ -254,18 +254,36 @@ function CardDrawFeatures() {
   const heading2Y = useTransform(scrollYProgress, [0.8, 0.95], ["100vh", "0vh"]);
   const heading2Opacity = useTransform(scrollYProgress, [0.8, 0.9], [0, 1]);
 
-  // Calculate individual card animations
+  // Calculate individual card animations - sequential reveal
   const getCardAnimation = (index: number) => {
     const totalCards = 10;
+    // Each card appears 0.04 units after the previous one
     const startProgress = 0.15 + (index * 0.04);
-    const endProgress = startProgress + 0.15;
+    const revealProgress = startProgress + 0.03;
+    const endProgress = revealProgress + 0.03;
     
-    // Cards start stacked at center bottom
-    const y = useTransform(scrollYProgress, [startProgress, endProgress], [100, 0]);
-    const x = useTransform(scrollYProgress, [startProgress, endProgress], [0, (index - 4.5) * 80]);
-    const rotate = useTransform(scrollYProgress, [startProgress, endProgress], [0, (index - 4.5) * 5]);
-    const scale = useTransform(scrollYProgress, [startProgress, endProgress], [0.8, 1]);
-    const opacity = useTransform(scrollYProgress, [startProgress - 0.05, startProgress], [0, 1]);
+    // Cards start invisible and stacked at center bottom
+    const y = useTransform(scrollYProgress, 
+      [startProgress, revealProgress, endProgress], 
+      [100, 50, 0]
+    );
+    const x = useTransform(scrollYProgress, 
+      [startProgress, revealProgress, endProgress], 
+      [0, 0, (index - 4.5) * 65]
+    );
+    const rotate = useTransform(scrollYProgress, 
+      [startProgress, revealProgress, endProgress], 
+      [0, 0, (index - 4.5) * 4]
+    );
+    const scale = useTransform(scrollYProgress, 
+      [startProgress, revealProgress, endProgress], 
+      [0.7, 0.85, 1]
+    );
+    // Sharp opacity transition - hidden until it's time to reveal
+    const opacity = useTransform(scrollYProgress, 
+      [startProgress - 0.01, startProgress, revealProgress], 
+      [0, 1, 1]
+    );
     
     return { y, x, rotate, scale, opacity };
   };
@@ -337,7 +355,7 @@ function CardDrawFeatures() {
           style={{ opacity: cardsOpacity }} 
           className="flex-1 flex items-center justify-center relative"
         >
-          <div className="relative w-full max-w-7xl mx-auto h-[500px] flex items-center justify-center">
+          <div className="relative w-full max-w-7xl mx-auto h-[400px] md:h-[450px] flex items-center justify-center">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               const animation = getCardAnimation(index);
@@ -354,22 +372,22 @@ function CardDrawFeatures() {
                     position: 'absolute',
                     zIndex: index,
                   }}
-                  className="w-[280px] md:w-[320px] lg:w-[350px]"
+                  className="w-[220px] md:w-[260px] lg:w-[280px]"
                   whileHover={{ 
-                    scale: 1.1, 
-                    y: -20,
+                    scale: 1.15, 
+                    y: -25,
                     zIndex: 100,
                     transition: { type: "spring", stiffness: 300 }
                   }}
                 >
-                  <Card className="p-5 md:p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-2 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 shadow-2xl hover:shadow-3xl" data-testid={`card-feature-${index}`}>
-                    <div className={`w-12 h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-br ${feature.color} p-3 mb-4 shadow-lg`}>
+                  <Card className="p-4 md:p-5 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-2 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 shadow-2xl hover:shadow-3xl" data-testid={`card-feature-${index}`}>
+                    <div className={`w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br ${feature.color} p-2.5 mb-3 shadow-lg`}>
                       <Icon className="w-full h-full text-white" />
                     </div>
-                    <h3 className="text-lg md:text-xl font-bold mb-3 text-gray-900 dark:text-white" data-testid={`text-feature-title-${index}`}>
+                    <h3 className="text-base md:text-lg font-bold mb-2 text-gray-900 dark:text-white" data-testid={`text-feature-title-${index}`}>
                       {feature.title}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base leading-relaxed" data-testid={`text-feature-desc-${index}`}>
+                    <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm leading-relaxed" data-testid={`text-feature-desc-${index}`}>
                       {feature.description}
                     </p>
                   </Card>
