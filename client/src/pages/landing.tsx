@@ -274,7 +274,7 @@ function CardDrawFeatures() {
     // Cards fan out horizontally
     const x = useTransform(scrollYProgress, 
       [startProgress, revealProgress, endProgress], 
-      [0, 0, offsetFromCenter * 35] // Horizontal spread based on position
+      [0, 0, offsetFromCenter * 60] // Horizontal spread based on position
     );
     
     // Cards rotate based on their position from center
