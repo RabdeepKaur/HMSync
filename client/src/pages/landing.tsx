@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import { ThemeToggle } from "@/components/theme-toggle";
+import {FloatingFeature} from "@/components/Floatingfeature"
+
 import { useToast } from "@/hooks/use-toast";
 import { 
   Users, 
@@ -37,6 +38,79 @@ import {
 } from "lucide-react";
 import testimonials from "@/data/testimonials.json";
 
+const features = [
+  {
+    icon: Users,
+    title: "Patient Management",
+    description: "Complete patient registration, records, and history tracking with advanced search capabilities",
+    color: "from-blue-500 to-cyan-500",
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop"
+  },
+  {
+    icon: Stethoscope,
+    title: "Doctor Management",
+    description: "Comprehensive doctor profiles, schedules, earnings tracking, and performance analytics",
+    color: "from-purple-500 to-pink-500",
+    image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=800&h=600&fit=crop"
+  },
+  {
+    icon: Calendar,
+    title: "OPD Management",
+    description: "Streamline outpatient appointments, consultations, and follow-ups with automated reminders",
+    color: "from-green-500 to-emerald-500",
+    image: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=800&h=600&fit=crop"
+  },
+  {
+    icon: TestTube,
+    title: "Pathology Lab",
+    description: "Order tests, track results, generate reports, and integrate with lab equipment seamlessly",
+    color: "from-orange-500 to-red-500",
+    image: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=800&h=600&fit=crop"
+  },
+  {
+    icon: BedDouble,
+    title: "In-Patient Admissions",
+    description: "Manage admissions, room transfers, discharges, and bed allocation with real-time updates",
+    color: "from-indigo-500 to-blue-500",
+    image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&h=600&fit=crop"
+  },
+  {
+    icon: FileText,
+    title: "Billing & Payments",
+    description: "Comprehensive billing with multiple payment methods, insurance claims, and financial reporting",
+    color: "from-teal-500 to-cyan-500",
+    image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&h=600&fit=crop"
+  },
+  {
+    icon: BarChart3,
+    title: "Analytics & Reports",
+    description: "Real-time insights, financial summaries, occupancy rates, and customizable dashboards",
+    color: "from-pink-500 to-rose-500",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop"
+  },
+  {
+    icon: Shield,
+    title: "Audit Logs",
+    description: "Complete activity tracking for compliance, security, and operational transparency",
+    color: "from-violet-500 to-purple-500",
+    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=600&fit=crop"
+  },
+  {
+    icon: Database,
+    title: "Backup & Restore",
+    description: "Automated backups with one-click restore, ensuring your data is always protected",
+    color: "from-amber-500 to-yellow-500",
+    image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&h=600&fit=crop"
+  },
+  {
+    icon: Building2,
+    title: "Multi-Location Support",
+    description: "Manage multiple hospital branches from a unified platform with centralized oversight",
+    color: "from-cyan-500 to-blue-500",
+    image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&h=600&fit=crop"
+  },
+];
+
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
@@ -47,69 +121,81 @@ const contactFormSchema = z.object({
 
 type ContactFormData = z.infer<typeof contactFormSchema>;
 
-const features = [
-  {
-    icon: Users,
-    title: "Patient Management",
-    description: "Complete patient registration, records, and history tracking with advanced search capabilities",
-    color: "from-blue-500 to-cyan-500"
-  },
-  {
-    icon: Stethoscope,
-    title: "Doctor Management",
-    description: "Comprehensive doctor profiles, schedules, earnings tracking, and performance analytics",
-    color: "from-purple-500 to-pink-500"
-  },
-  {
-    icon: Calendar,
-    title: "OPD Management",
-    description: "Streamline outpatient appointments, consultations, and follow-ups with automated reminders",
-    color: "from-green-500 to-emerald-500"
-  },
-  {
-    icon: TestTube,
-    title: "Pathology Lab",
-    description: "Order tests, track results, generate reports, and integrate with lab equipment seamlessly",
-    color: "from-orange-500 to-red-500"
-  },
-  {
-    icon: BedDouble,
-    title: "In-Patient Admissions",
-    description: "Manage admissions, room transfers, discharges, and bed allocation with real-time updates",
-    color: "from-indigo-500 to-blue-500"
-  },
-  {
-    icon: FileText,
-    title: "Billing & Payments",
-    description: "Comprehensive billing with multiple payment methods, insurance claims, and financial reporting",
-    color: "from-teal-500 to-cyan-500"
-  },
-  {
-    icon: BarChart3,
-    title: "Analytics & Reports",
-    description: "Real-time insights, financial summaries, occupancy rates, and customizable dashboards",
-    color: "from-pink-500 to-rose-500"
-  },
-  {
-    icon: Shield,
-    title: "Audit Logs",
-    description: "Complete activity tracking for compliance, security, and operational transparency",
-    color: "from-violet-500 to-purple-500"
-  },
-  {
-    icon: Database,
-    title: "Backup & Restore",
-    description: "Automated backups with one-click restore, ensuring your data is always protected",
-    color: "from-amber-500 to-yellow-500"
-  },
-  {
-    icon: Building2,
-    title: "Multi-Location Support",
-    description: "Manage multiple hospital branches from a unified platform with centralized oversight",
-    color: "from-cyan-500 to-blue-500"
-  },
-];
+/* Navbar*/
+function FloatingNavbar() {
+  const navItems = [
+    { label: "Features", href: "#features" },
+    { label: "Benefits", href: "#why-choose" },
+    { label: "Demo", href: "#contact" },
+    { label: "Pricing", href: "#why-choose" },
+    { label: "Testimonials", href: "#testimonials" },
+  ];
 
+  return (
+    <motion.nav
+      initial={{ y: 100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, delay: 1 }}
+      className="fixed top-2 md:top-8 left-0 right-0 z-50 flex justify-center px-4  "
+    >
+      <div className="flex items-center gap-20 px-4 md:px-6 py-2.5 md:py-3 rounded-full bg-white/10 dark:bg-black/10 backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-2xl max-w-full">
+        <motion.a
+          href="#"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="px-2 md:px-4 py-2 font-bold text-base md:text-lg text-black bg-clip-text  hover:from-blue-700 hover:to-purple-700 dark:hover:from-blue-300 dark:hover:to-purple-300 transition-all whitespace-nowrap"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
+          HMSync
+        </motion.a>
+        
+        <div className="h-6 w-px bg-white/20 dark:bg-white/10 mx-1 md:mx-2" />
+        
+        <div className="hidden lg:flex items-center gap-1">
+          {navItems.map((item, index) => (
+            <motion.a
+              key={index}
+              href={item.href}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white/20 dark:hover:bg-white/10 transition-all duration-300"
+              onClick={(e) => {
+                e.preventDefault();
+                const target = document.querySelector(item.href);
+                if (target) {
+                  target.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+            >
+              {item.label}
+            </motion.a>
+          ))}
+          
+          <div className="h-6 w-px bg-white/20 dark:bg-white/10 mx-2" />
+        </div>
+        
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="px-3 md:px-5 py-2 rounded-lg text-xs md:text-sm font-semibold bg-[#FF731D] text-white shadow-lg transition-all duration-300 whitespace-nowrap"
+          onClick={() => {
+            const target = document.querySelector("#contact");
+            if (target) {
+              target.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
+        >
+          Book a Demo
+        </motion.button>
+      </div>
+    </motion.nav>
+  );
+}
+
+/*hero section*/
 function HeroSection() {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -128,7 +214,7 @@ function HeroSection() {
       {/* Animated background layers */}
       <motion.div 
         style={{ y: y1 }}
-        className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-950 dark:via-purple-950 dark:to-pink-950"
+        className="absolute inset-0 bg-white dark:from-blue-950 dark:via-purple-950 dark:to-pink-950"
       />
       
       <motion.div 
@@ -143,6 +229,7 @@ function HeroSection() {
         style={{ y: y3, opacity, scale }}
         className="relative h-full flex flex-col items-center justify-center px-6 text-center"
       >
+      {/*
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -165,16 +252,54 @@ function HeroSection() {
         >
           HMSync
         </motion.h1>
+8*/}
+
+  <FloatingFeature
+    icon={Users}
+    title="Patient Management"
+    className="top-40 left-20"
+  />
+
+  <FloatingFeature
+    icon={Stethoscope}
+    title="Doctor Management"
+    className="top-40 right-24"
+  />
+
+  <FloatingFeature
+    icon={Calendar}
+    title="OPD Management"
+    className="top-[55%] left-16"
+  />
+
+  <FloatingFeature
+    icon={TestTube}
+    title="Pathology Lab"
+    className="top-[55%] right-20"
+  />
+
+  <FloatingFeature
+    icon={BedDouble}
+    title="In-Patient Admissions"
+    className="bottom-12 left-20"
+  />
+
+  <FloatingFeature
+    icon={BarChart3}
+    title="Analytics & Reports"
+    className="bottom-12 right-20"
+  />
+
 
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white max-w-4xl px-4"
+          className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold mb-10 text-gray-900 dark:text-white max-w-4xl px-4 mt-40 "
           data-testid="heading-tagline"
         >
           Advanced Control. Owner-First.{" "}
-          <span className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
+          <span className="bg-[#5F9DF7] bg-clip-text text-transparent">
             Fully Customizable.
           </span>
         </motion.h2>
@@ -183,7 +308,7 @@ function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl leading-relaxed px-4"
+          className="text-base sm:text-lg md:text-xl lg:text-xl text-gray-400 dark:text-gray-300 mb-12 max-w-3xl leading-relaxed px-4"
           data-testid="text-description"
         >
           The complete hospital management system designed for modern healthcare facilities. 
@@ -198,17 +323,17 @@ function HeroSection() {
         >
           <Button 
             size="lg" 
-            className="text-base md:text-lg px-6 md:px-8 py-5 md:py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-2xl shadow-blue-500/50 dark:shadow-blue-400/30 group"
+            className="text-base md:text-lg px-6 md:px-8 py-5 md:py-6 bg-[#FF731D] hover:shadow-2xl text-white shadow-2xl shadow-blue-500/50 dark:shadow-blue-400/30 group"
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             data-testid="button-request-demo"
           >
-            Request a Demo
+            Book a Demo
             <ArrowRight className="ml-2 w-4 md:w-5 h-4 md:h-5 group-hover:translate-x-1 transition-transform" />
           </Button>
           <Button 
             size="lg" 
             variant="outline" 
-            className="text-base md:text-lg px-6 md:px-8 py-5 md:py-6 border-2 bg-white/60 dark:bg-black/40 backdrop-blur-md hover:bg-white dark:hover:bg-black/60"
+            className="text-base md:text-lg px-6 md:px-8 py-5 md:py-6 border-2 bg-[#5F9DF7] dark:bg-black/40 backdrop-blur-md hover:bg-white dark:hover:bg-black/60"
             onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
             data-testid="button-explore-features"
           >
@@ -228,6 +353,18 @@ function HeroSection() {
     </div>
   );
 }
+
+
+/*feature
+function CardDrawFeatures(){
+  return(
+    <>
+    <div className="">
+<CardGroupDemo />
+    </div>
+    </>
+  )
+}*/
 
 function CardDrawFeatures() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -310,7 +447,7 @@ function CardDrawFeatures() {
         className="fixed inset-0 bg-gradient-to-br from-blue-950 via-purple-950 to-pink-950 pointer-events-none" 
       />
       
-      {/* Grid pattern overlay */}
+      {/* Grid pattern overlay*/}
       <motion.div 
         style={{ opacity: useTransform(gradientOpacity, [0, 1], [0, 0.2]) }} 
         className="fixed inset-0 pointer-events-none"
@@ -318,7 +455,7 @@ function CardDrawFeatures() {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-10" />
       </motion.div>
 
-      <div className="sticky top-0 h-screen overflow-hidden flex flex-col py-12 relative z-10">
+      <div className="top-0 h-screen overflow-hidden flex flex-col py-12 relative z-10">
         {/* Heading section */}
         <motion.div 
           style={{ y: heading1Y, opacity: heading1Opacity }}
@@ -444,6 +581,7 @@ function CardDrawFeatures() {
     </section>
   );
 }
+
 
 
 
@@ -896,78 +1034,6 @@ function ContactSection() {
   );
 }
 
-function FloatingNavbar() {
-  const navItems = [
-    { label: "Features", href: "#features" },
-    { label: "Benefits", href: "#why-choose" },
-    { label: "Demo", href: "#contact" },
-    { label: "Pricing", href: "#why-choose" },
-    { label: "Testimonials", href: "#testimonials" },
-  ];
-
-  return (
-    <motion.nav
-      initial={{ y: 100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, delay: 1 }}
-      className="fixed bottom-4 md:bottom-8 left-0 right-0 z-50 flex justify-center px-4"
-    >
-      <div className="flex items-center gap-1 px-4 md:px-6 py-2.5 md:py-3 rounded-full bg-white/10 dark:bg-black/10 backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-2xl max-w-full">
-        <motion.a
-          href="#"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="px-2 md:px-4 py-2 font-bold text-base md:text-lg bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent hover:from-blue-700 hover:to-purple-700 dark:hover:from-blue-300 dark:hover:to-purple-300 transition-all whitespace-nowrap"
-          onClick={(e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-        >
-          HMSync
-        </motion.a>
-        
-        <div className="h-6 w-px bg-white/20 dark:bg-white/10 mx-1 md:mx-2" />
-        
-        <div className="hidden lg:flex items-center gap-1">
-          {navItems.map((item, index) => (
-            <motion.a
-              key={index}
-              href={item.href}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white/20 dark:hover:bg-white/10 transition-all duration-300"
-              onClick={(e) => {
-                e.preventDefault();
-                const target = document.querySelector(item.href);
-                if (target) {
-                  target.scrollIntoView({ behavior: "smooth" });
-                }
-              }}
-            >
-              {item.label}
-            </motion.a>
-          ))}
-          
-          <div className="h-6 w-px bg-white/20 dark:bg-white/10 mx-2" />
-        </div>
-        
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="px-3 md:px-5 py-2 rounded-lg text-xs md:text-sm font-semibold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg transition-all duration-300 whitespace-nowrap"
-          onClick={() => {
-            const target = document.querySelector("#contact");
-            if (target) {
-              target.scrollIntoView({ behavior: "smooth" });
-            }
-          }}
-        >
-          Request Demo
-        </motion.button>
-      </div>
-    </motion.nav>
-  );
-}
 
 function Footer() {
   return (
@@ -1013,7 +1079,6 @@ function Footer() {
 export default function LandingPage() {
   return (
     <div className="relative">
-      <ThemeToggle />
       <FloatingNavbar />
       <HeroSection />
       <CardDrawFeatures />
