@@ -107,6 +107,8 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: var(--font-sans);
+    margin:0;
+    padding:0;
   }
 }
 
